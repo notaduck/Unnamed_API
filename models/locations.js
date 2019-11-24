@@ -37,5 +37,5 @@ function validateLocation(location) {
 	return Joi.validate(location, schema);
 }
 
-exports.Marker = Location;
+exports.Location = Location;
 exports.validate = validateLocation;
