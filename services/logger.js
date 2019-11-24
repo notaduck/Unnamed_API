@@ -1,18 +1,26 @@
 const winston = require('winston');
 
+
+const config = {
+	file: {
+		filename: 'logs/error.log',
+		level: 'error'
+	},
+	console: {
+		format: winston.format.combine(
+			winston.format.colorize(),
+			winston.format.timestamp(),
+			winston.format.prettyPrint(),
+			winston.format.splat(),
+			winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`)
+		)
+	}
+};
+
 const logger = winston.createLogger({
 	transports: [
-		new winston.transports.Console({
-			format: winston.format.combine(
-				winston.format.colorize(),
-				winston.format.timestamp(),
-				winston.format.prettyPrint(),
-				winston.format.splat(),
-				winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`)
-			)
-		},
-		new winston.transports.File({ filename: 'log/error.log', level: 'error' }),
-		)
+		new winston.transports.Console(config.console),
+		new winston.transports.File(config.file),
 	]
 });
 
