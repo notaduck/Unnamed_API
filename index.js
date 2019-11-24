@@ -8,7 +8,7 @@ require('./services/routes.js')(app);
 
 
 if (app.get('env') === 'production') {
-	require('./startup/prod.js')(app);
+	require('./services/prod.js')(app);
 }
 
 const server = app.listen(PORT, () => {
