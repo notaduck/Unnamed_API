@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 module.exports = function()  {
 	mongoose.connect(process.env.DB_CONNECTION_STRING,
-		{ useNewUrlParser: true })
+		{ useNewUrlParser: true, useUnifiedTopology: true })
 		.then(() => log.info('Connected to MongoDB...'))
 		.catch(e => log.info(e));
 
