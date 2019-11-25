@@ -1,7 +1,5 @@
 const winston = require('winston');
 
-
-
 const config = {
 	file: {
 		filename: 'logs/error.log',
@@ -27,8 +25,9 @@ const logger = winston.createLogger({
 
 process.on('uncaughtException', function (err) {
 	logger.error('uncaughtException', { message : err.message, stack : err.stack }); // logging with MetaData
-	process.exit(1); // exit with failure
+	// process.exit(1); // exit with failure
 });
+
 
 
 module.exports = logger;

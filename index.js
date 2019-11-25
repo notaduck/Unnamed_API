@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 3000;
 require('./services/db.js')(log);
 require('./services/routes.js')(app);
 
-
 if (app.get('env') === 'production') {
 	require('./services/prod.js')(app);
 }
