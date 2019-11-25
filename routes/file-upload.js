@@ -11,9 +11,10 @@ const router = express();
 router.post('/image-upload', async (req, res) => {
 
 	singleUpload(req, res, (err) => {
-		if (err) res.send(err);
 
-		return res.json({
+		if (err) res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({ errors: [{ title: 'Something went wrong.', detail: err.message }] });
+
+		return res.status(HttpStatus.OK).json({
 			'imageUrl': req.file.location
 		});
 

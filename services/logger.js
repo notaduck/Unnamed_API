@@ -24,7 +24,7 @@ const logger = winston.createLogger({
 });
 
 process.on('uncaughtException', function (err) {
-	logger.error('uncaughtException', { message : err.message, stack : err.stack }); // logging with MetaData
+	logger.error('uncaughtException: ', { message: err.message, stack: err.stack }); // logging with MetaData
 	// process.exit(1); // exit with failure
 });
 
