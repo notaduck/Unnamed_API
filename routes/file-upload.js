@@ -4,8 +4,6 @@ const upload = require('../services/file-upload');
 require('express-async-errors');
 
 const singleUpload = upload.single('image');
-
-
 const router = express();
 
 router.post('/image-upload', async (req, res) => {
