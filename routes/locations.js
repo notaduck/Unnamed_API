@@ -47,17 +47,23 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
 
-	singleUpload(req, res, (err) => {
-		if (err) res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({ errors: [{ title: 'Something went wrong.', detail: err.message }] });
 
-		const location = location.findbyidandupdate(
+	singleUpload(req, res, async (err) => {
+
+		if (err) res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({ errors: [{ title: 'Something went wrong.', detail: err.message }] });
+		console.log(req.file);
+
+
+
+		const image_key = req.file.location;
+
+		const location = await Location.findByIdAndUpdate(
 			req.params.id,
-			{ '$push': { 'images': res.file.key } }
+			{ '$push': { 'images': image_key } }
 		);
 
 		res.send(location);
 	});
 
 });
-
 module.exports = router;
