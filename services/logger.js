@@ -11,7 +11,7 @@ const config = {
 			winston.format.timestamp(),
 			winston.format.prettyPrint(),
 			winston.format.splat(),
-			winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`)
+			winston.format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}\n ${info.stack}`)
 		)
 	}
 };
