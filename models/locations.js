@@ -56,7 +56,7 @@ function validateLocation(location) {
       .min(5)
       .max(500)
       .required(),
-    type: Joi.string().require()
+    type: Joi.string().valid('REGULAR', 'PLAYGROUND').required()
   };
 
   return Joi.validate(location, schema);
