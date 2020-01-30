@@ -19,7 +19,7 @@
     "nodemon": "^2.0.1"
   },
   "engines": {
-    "node": "13.2.0"
+    "node": "13.7.0"
   },
   "scripts": {
     "start": "nodemon index.js"
