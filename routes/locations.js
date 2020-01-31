@@ -3,10 +3,8 @@ const HttpStatus = require('http-status-codes');
 require('express-async-errors');
 const { Location, validate } = require('../models/locations');
 const titleFormatter = require('../utils/titleFormatter');
-// const upload = require('../services/file-upload');
 
 const router = express();
-// const singleUpload = upload.single('image');
 
 router.get('/', async (req, res) => {
 	const locations = await Location.find();
@@ -45,23 +43,4 @@ router.post('/', async (req, res) => {
 	res.status(HttpStatus.OK).json(location);
 });
 
-// router.put('/:id', async (req, res) => {
-// 	singleUpload(req, res, async err => {
-// 		if (err)
-// 			res
-// 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
-// 				.send({
-// 					errors: [{ title: 'Something went wrong.', detail: err.message }]
-// 				});
-// 		console.log(req.file);
-
-// 		const image_key = req.file.location;
-
-// 		const location = await Location.findByIdAndUpdate(req.params.id, {
-// 			$push: { images: image_key }
-// 		});
-
-// 		res.send(location);
-// 	});
-// });
 module.exports = router;
