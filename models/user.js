@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 const bcryt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
 	name: {
@@ -21,6 +22,7 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		minlength: 5,
 		maxlength: 1024,
+		select: false
 	},
 });
 
@@ -29,9 +31,20 @@ userSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) return next();
 
 	this.password = await bcryt.hash(this.password, 12);
+
 	next();
 });
 
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+	return await bcryt.compare(candidatePassword, userPassword);
+};
+
+
+userSchema.methods.signToken = function () {
+	return jwt.sign({ id: this._id }, 'JWT_SECRET', {
+		expiresIn: process.env.JWT_EXPIRES_IN
+	});
+};
 
 const User = mongoose.model('User', userSchema);
 
