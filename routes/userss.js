@@ -2,7 +2,7 @@ const express = require('express');
 const router = express();
 const { User, validate } = require('../models/user');
 const HttpStatus = require('http-status-codes');
-const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 
 require('express-async-errors');
 
@@ -25,21 +25,40 @@ router.post('/signup', async (req, res) => {
 
 	await user.save();
 
-	const token = jwt.sign({ id: user._id }, 'JWT SECRET', {
-		expiresIn: process.env.JWT_EXPIRES_IN
-	});
-
 	res.status(HttpStatus.CREATED).json({
-		token,
+		token: user.signToken(),
 		data: {
 			user: user
 		}
 	});
-	// res.status(HttpStatus.CREATED).send(user);
 });
 
-router.get('/', (req, res) => {
-	res.send(process.env.JWT_EXPIRES_IN);
+router.get('/login', async (req, res) => {
+	const { email, password } = req.body;
+	const { error } = validateEmailandPassword(req.body);
+
+	if (error) {
+		return res.status(HttpStatus.BAD_REQUEST).send(error.details[0].message);
+	}
+
+	const user = await User.findOne({ email }).select('+password');
+
+	if (!user || !(await user.correctPassword(password, user.password))) {
+		return res.status(HttpStatus.BAD_REQUEST).send('Incorrect email or password');
+	}
+
+	res.status(HttpStatus.OK).json({
+		token: user.signToken(),
+	});
+
 });
+
+const validateEmailandPassword = (user) => {
+	const schema = {
+		email: Joi.string().min(5).max(255).required().email(),
+		password: Joi.string().min(5).max(255).required(),
+	};
+	return Joi.validate(user, schema);
+};
 
 module.exports = router;
