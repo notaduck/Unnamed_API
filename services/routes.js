@@ -2,7 +2,7 @@ const cors = require('cors');
 const express = require('express');
 
 const locations = require('../routes/locations.js');
-const users = require('../routes/userss');
+const users = require('../routes/users');
 
 // const error = require('../middleware/error.js');
 

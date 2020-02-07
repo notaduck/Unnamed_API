@@ -1,6 +1,5 @@
 const express = require('express');
 const HttpStatus = require('http-status-codes');
-require('express-async-errors');
 const { Location, validate } = require('../models/locations');
 const titleFormatter = require('../utils/titleFormatter');
 
